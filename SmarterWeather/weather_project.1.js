@@ -39,7 +39,7 @@ class WeatherProject extends Component {
     });
   }
   fooCallbacks = (cb) => {
-    callback = (input, cb2, err) => {
+    callback = (cb2, input, err) => {
       console.log("Called at " + Date.now());
       setTimeout(() => {
         console.log("finished at "+ Date.now());
@@ -53,9 +53,9 @@ class WeatherProject extends Component {
         callback(function(res, err) {
           console.log(res + ': 3');
           cb();
-        }, 2)
-      }, 1)
-    }, 0);
+        }, 1)
+      }, 2)
+    }, 5);
   }
   
   doCallbackWork1 = () => {
@@ -94,8 +94,8 @@ class WeatherProject extends Component {
   }
 
   doAsyncWork = () => {
-    this.foo()
-    .then(function(fooResult) {
+    let promise = this.foo()
+    promise.then(function(fooResult) {
       console.log(fooResult); // fooResult should be what is returned by doSomething3()
     })
     .catch(function(err) {
@@ -118,11 +118,11 @@ class WeatherProject extends Component {
   }
 
   fooAwait = async() => {
-    doSomethingResult = await this.doSomething(0);
+        doSomethingResult = await this.doSomething(0);
         console.log(doSomethingResult + ': 1');
-    doSomething1Result = await this.doSomething(1);
+        doSomething1Result = await this.doSomething(1);
         console.log(doSomething1Result + ': 2');
-    doSomething2Result = await this.doSomething(2);
+        doSomething2Result = await this.doSomething(2);
         console.log(doSomething2Result + ': 3');
         return this.doSomething(3);
       }
@@ -159,7 +159,7 @@ class WeatherProject extends Component {
   checkMultiPermissions = async() => {
     const { Permissions, FileSystem } = Expo;
     console.log(FileSystem.documentDirectory);
-    const { status, expires, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL)
+    let { status, expires, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL)
     if (status !== 'granted') {
       console.log('Hey! You heve not enabled selected permissions');
       const { newStatus, expires, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -268,7 +268,6 @@ class WeatherProject extends Component {
             <Text style={textStyles.mainText}>
               Forecast for
             </Text>
-
             <View style={styles.zipContainer}>
               <TextInput
                 style={[textStyles.mainText, styles.zipCode]}

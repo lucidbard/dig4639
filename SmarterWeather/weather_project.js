@@ -32,7 +32,7 @@ class WeatherProject extends Component {
   checkMultiPermissions = async() => {
     const { Permissions, FileSystem } = Expo;
     console.log(FileSystem.documentDirectory);
-    const { status, expires, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL)
+    let { status, expires, permissions } = await Permissions.getAsync(Permissions.CAMERA_ROLL)
     if (status !== 'granted') {
       console.log('Hey! You heve not enabled selected permissions');
       const { newStatus, expires, permissions } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -110,8 +110,9 @@ class WeatherProject extends Component {
   };
 
   _getForecastForCoords = (lat, lon) => {
-    OpenWeatherMap.fetchLatLonForecast(lat, lon).then(forecast => {
-      this.setState({ forecast: forecast });
+    OpenWeatherMap.fetchLatLonForecast(lat, lon)
+      .then(forecast => {
+        this.setState({ forecast: forecast });
     });
   };
 
